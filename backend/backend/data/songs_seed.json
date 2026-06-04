@@ -1,0 +1,117 @@
+[
+  {
+    "song_id": 1001,
+    "title": "MAXRAGE",
+    "version": "PRiSM",
+    "difficulty": "Master",
+    "level": "14+",
+    "ds": 14.7,
+    "charter": "TechMapper",
+    "tags": [
+      {
+        "key": "style",
+        "value": "tech"
+      },
+      {
+        "key": "stamina",
+        "value": "high"
+      },
+      {
+        "key": "reading",
+        "value": "mid"
+      }
+    ]
+  },
+  {
+    "song_id": 1002,
+    "title": "SILENT VOICE",
+    "version": "UNiVERSE",
+    "difficulty": "Master",
+    "level": "13+",
+    "ds": 13.8,
+    "charter": "FlowMapper",
+    "tags": [
+      {
+        "key": "style",
+        "value": "flow"
+      },
+      {
+        "key": "stamina",
+        "value": "mid"
+      },
+      {
+        "key": "reading",
+        "value": "high"
+      }
+    ]
+  },
+  {
+    "song_id": 1003,
+    "title": "NEXUS LOOP",
+    "version": "FESTiVAL",
+    "difficulty": "Re:Master",
+    "level": "14",
+    "ds": 14.3,
+    "charter": "PatternLab",
+    "tags": [
+      {
+        "key": "style",
+        "value": "jack"
+      },
+      {
+        "key": "stamina",
+        "value": "high"
+      },
+      {
+        "key": "reading",
+        "value": "high"
+      }
+    ]
+  },
+  {
+    "song_id": 1004,
+    "title": "Aqua Pulse",
+    "version": "BUDDiES",
+    "difficulty": "Expert",
+    "level": "12+",
+    "ds": 12.9,
+    "charter": "SwingMapper",
+    "tags": [
+      {
+        "key": "style",
+        "value": "swing"
+      },
+      {
+        "key": "stamina",
+        "value": "low"
+      },
+      {
+        "key": "reading",
+        "value": "mid"
+      }
+    ]
+  },
+  {
+    "song_id": 1005,
+    "title": "Skyline Drive",
+    "version": "FESTiVAL PLUS",
+    "difficulty": "Master",
+    "level": "13",
+    "ds": 13.2,
+    "charter": "ClassicMapper",
+    "tags": [
+      {
+        "key": "style",
+        "value": "balance"
+      },
+      {
+        "key": "stamina",
+        "value": "mid"
+      },
+      {
+        "key": "reading",
+        "value": "low"
+      }
+    ]
+  }
+]
