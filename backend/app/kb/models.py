@@ -83,3 +83,7 @@ def default_song_seed() -> list[SongEntry]:
 
 def kb_data_path(root: str | Path = ".") -> Path:
     return Path(root).resolve() / "backend" / "data" / "songs_seed.json"
+
+
+def kb_music_data_path(root: str | Path = ".") -> Path:
+    return Path(root).resolve() / "backend" / "data" / "songs_music_data.json"

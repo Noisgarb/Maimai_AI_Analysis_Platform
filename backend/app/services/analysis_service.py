@@ -134,6 +134,8 @@ class AnalysisService:
         }
 
     def recommend_songs_by_shortfall(self, shortfalls: list[str], limit: int = 6):
+        if self.song_repo.using_seed_data:
+            return []
         tags = suggest_training_tags(shortfalls)
         results = []
         seen_ids = set()
@@ -146,11 +148,17 @@ class AnalysisService:
                 results.append(song)
                 if len(results) >= limit:
                     return results
-        if len(results) < limit:
-            for song in self.song_repo.list_all():
-                if song.song_id in seen_ids:
-                    continue
-                results.append(song)
-                if len(results) >= limit:
-                    break
+        # 不再“补齐”随机曲，避免看起来像虚构推荐；不足就按实际返回。
         return results
+
+    async def ensure_music_data_ready(self) -> tuple[bool, str | None]:
+        if self.song_repo.using_music_data:
+            return True, None
+        try:
+            music_data = await self.fish.music_data()
+            count = self.song_repo.upsert_from_music_data(music_data)
+            if count <= 0:
+                return False, "曲库同步结果为空，已阻断推荐。"
+            return True, None
+        except Exception as exc:
+            return False, f"曲库同步失败：{exc}"

@@ -59,6 +59,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\run_frontend.ps1
 - `GET /players/records?import_token=...`：使用导入 token 查询完整成绩
 - `GET /knowledge/songs`：查询本地谱面，支持 `tags`, `min_ds`, `max_ds`
 - `GET /knowledge/tags/distribution`：标签分布统计
+- `POST /knowledge/sync/music-data`：从水鱼同步完整曲库到本地
 - `POST /analysis/b50`：生成六维分析与建议
 
 ## 5. 水鱼接入说明
@@ -77,3 +78,19 @@ powershell -ExecutionPolicy Bypass -File .\scripts\run_frontend.ps1
 - 短板韧性
 
 评分结果映射到 0-100 区间，前端展示雷达图，并生成短中长期建议。
+
+## 7. 完整曲库同步（避免虚构曲目）
+
+推荐曲目应基于真实曲库。可通过以下方式同步：
+
+```powershell
+& .\.venv\Scripts\python.exe .\scripts\sync_music_data.py
+```
+
+或调用后端接口：
+
+```http
+POST /knowledge/sync/music-data
+```
+
+同步后曲库文件默认写入 `backend/data/songs_music_data.json`，推荐仅从该真实曲库中筛选；若命中不足，将返回不足数量，不再伪造/补齐曲名。

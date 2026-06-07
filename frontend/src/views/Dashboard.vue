@@ -202,7 +202,19 @@ async function exportB50Image() {
         </label>
         <div v-if="includeRecords">
           <label>Import-Token</label>
-          <input v-model="importToken" placeholder="仅本地使用，不会展示" />
+          <input
+            v-model="importToken"
+            type="password"
+            placeholder="请输入 Import-Token（将以 * 显示）"
+            autocomplete="off"
+          />
+          <p class="token-help">
+            获取方式：登录水鱼查分器网站，进入“编辑个人资料”，在“成绩导入 Token”处生成并复制。
+            请勿在群聊或截图中暴露该 Token。
+            <a href="https://www.diving-fish.com/maimaidx/prober/" target="_blank" rel="noopener noreferrer">
+              打开水鱼查分器
+            </a>
+          </p>
         </div>
       </div>
       <button :disabled="loading" @click="submitAnalyze">
@@ -373,6 +385,9 @@ async function exportB50Image() {
             <strong>{{ idx + 1 }}. {{ item.title }}</strong>
             <p>{{ item.difficulty }} / {{ item.level }} / DS {{ item.ds }}</p>
           </article>
+          <p v-if="!(recommendData.items || []).length" class="recommend-empty-inline">
+            当前未命中真实曲库推荐，请先同步曲库后重试。
+          </p>
         </div>
         <p v-if="recommendData.warning" class="recommend-warning">
           提示：{{ recommendData.warning }}
@@ -478,6 +493,19 @@ input {
 .checkbox {
   width: 16px;
   height: 16px;
+}
+
+.token-help {
+  margin: 8px 0 0;
+  color: #9db1dd;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.token-help a {
+  color: #9fc2ff;
+  margin-left: 6px;
+  text-decoration: underline;
 }
 
 input:focus {
@@ -876,6 +904,12 @@ button:disabled {
 .recommend-empty {
   margin: 10px 0 0;
   color: #b9c9f6;
+}
+
+.recommend-empty-inline {
+  margin: 0;
+  color: #b9c9f6;
+  font-size: 13px;
 }
 
 @media (max-width: 900px) {

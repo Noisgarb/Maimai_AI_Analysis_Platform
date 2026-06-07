@@ -2,11 +2,13 @@ from __future__ import annotations
 
 from fastapi import APIRouter, Query
 
+from app.integrations.diving_fish_client import DivingFishClient, DivingFishError
 from app.kb.repository import SongRepository
 from app.kb.tagging import collect_tag_distribution
 
 router = APIRouter(prefix="/knowledge", tags=["knowledge"])
 repo = SongRepository()
+fish = DivingFishClient()
 
 
 @router.get("/songs")
@@ -36,3 +38,13 @@ async def list_songs(
 async def tag_distribution() -> dict:
     dist = collect_tag_distribution(repo.list_all())
     return {"distribution": dist}
+
+
+@router.post("/sync/music-data")
+async def sync_music_data() -> dict:
+    try:
+        music_data = await fish.music_data()
+        count = repo.upsert_from_music_data(music_data)
+    except DivingFishError as exc:
+        return {"ok": False, "message": str(exc)}
+    return {"ok": True, "count": count, "path": str(repo.path)}

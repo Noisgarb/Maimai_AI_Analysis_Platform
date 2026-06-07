@@ -20,6 +20,7 @@ async def analyze_b50(req: QueryPlayerRequest) -> AnalyzeResponse:
 
 @router.post("/recommend")
 async def recommend_from_player(req: QueryPlayerRequest) -> dict:
+    music_ready, music_warning = await service.ensure_music_data_ready()
     try:
         analyzed = await service.analyze_b50(req)
         shortfalls = analyzed.radar.shortfalls
@@ -39,7 +40,14 @@ async def recommend_from_player(req: QueryPlayerRequest) -> dict:
         source = "fallback-default"
         warning = str(exc)
 
-    items = service.recommend_songs_by_shortfall(shortfalls, limit=6)
+    if not music_ready:
+        items = []
+        warning = f"{warning}；{music_warning}" if warning else music_warning
+        source = "blocked-no-music-data"
+    else:
+        items = service.recommend_songs_by_shortfall(shortfalls, limit=6)
+        if not items:
+            warning = f"{warning}；真实曲库命中不足" if warning else "真实曲库命中不足"
     return {
         "player_id": player_id,
         "evaluation_model": req.evaluation_model,

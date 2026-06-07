@@ -54,3 +54,16 @@ class DivingFishClient:
         if resp.status_code != 200:
             raise DivingFishError(f"/player/records 错误 {resp.status_code}: {resp.text}")
         return resp.json()
+
+    async def music_data(self) -> list[dict[str, Any]]:
+        async with httpx.AsyncClient(timeout=self.timeout) as client:
+            try:
+                resp = await client.get(f"{self.base_url}/music_data")
+            except httpx.HTTPError as exc:
+                raise DivingFishError(f"请求失败: {exc}") from exc
+        if resp.status_code != 200:
+            raise DivingFishError(f"/music_data 错误 {resp.status_code}: {resp.text}")
+        data = resp.json()
+        if not isinstance(data, list):
+            raise DivingFishError("/music_data 返回结构异常")
+        return data
